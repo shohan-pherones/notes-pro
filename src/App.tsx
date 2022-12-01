@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
+import NoteList from "./components/NoteList";
 
 export type Note = {
   id: string;
@@ -60,7 +61,10 @@ const App = () => {
   return (
     <Container className="my-5">
       <Routes>
-        <Route path="/" element={<h1>Home</h1>} />
+        <Route
+          path="/"
+          element={<NoteList notes={notesWithTags} includedTags={tags} />}
+        />
         <Route
           path="/new"
           element={
