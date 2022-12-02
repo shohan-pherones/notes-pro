@@ -9,12 +9,19 @@ type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
   onAddTag: (tag: Tag) => void;
   includedTags: Tag[];
-};
+} & Partial<NoteData>;
 
-const NoteForm = ({ onSubmit, onAddTag, includedTags }: NoteFormProps) => {
+const NoteForm = ({
+  onSubmit,
+  onAddTag,
+  includedTags,
+  title = "",
+  markdown = "",
+  tags = [],
+}: NoteFormProps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
   const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
@@ -36,7 +43,7 @@ const NoteForm = ({ onSubmit, onAddTag, includedTags }: NoteFormProps) => {
           <Col>
             <Form.Group controlId="title">
               <Form.Label>Title</Form.Label>
-              <Form.Control required ref={titleRef} />
+              <Form.Control required ref={titleRef} defaultValue={title} />
             </Form.Group>
           </Col>
           <Col>
@@ -68,7 +75,13 @@ const NoteForm = ({ onSubmit, onAddTag, includedTags }: NoteFormProps) => {
         </Row>
         <Form.Group controlId="markdown">
           <Form.Label>Body</Form.Label>
-          <Form.Control required as="textarea" rows={12} ref={markdownRef} />
+          <Form.Control
+            required
+            as="textarea"
+            rows={12}
+            ref={markdownRef}
+            defaultValue={markdown}
+          />
         </Form.Group>
         <Stack direction="horizontal" gap={3} className="justify-content-end">
           <Button type="submit" variant="primary">
